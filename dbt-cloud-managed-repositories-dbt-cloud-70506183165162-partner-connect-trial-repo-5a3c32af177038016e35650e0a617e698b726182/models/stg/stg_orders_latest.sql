@@ -1,9 +1,28 @@
-{{ config(materialized='table') }}
+{{
+    config(
+        materialized='incremental',
+        unique_key='order_id'
+    )
+}}
 
-select *
+select
+    order_id,
+    customer_id,
+    order_date,
+    order_status,
+    etl_loaded_at
+
 from {{ ref('stg_orders') }}
 
-qualify row_number() over (
-    partition by order_id
-    order by etl_loaded_at desc
-) = 1
+{% if is_incremental() %}
+
+where etl_loaded_at >
+(
+    select coalesce(
+        max(etl_loaded_at),
+        '1900-01-01'::timestamp_ntz
+    )
+    from {{ this }}
+)
+
+{% endif %}

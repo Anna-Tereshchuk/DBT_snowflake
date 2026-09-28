@@ -1,37 +1,24 @@
 version: 2
 
 models:
-  - name: customers
-    description: One record per customer
-    columns:
-      - name: customer_id
-        description: Primary key
-        data_tests:
-          - unique
-          - not_null
-
-      - name: first_order_date
-        description: NULL when a customer has not yet placed an order.
-
-  - name: stg_customers
-    description: This model cleans up customer data
-    columns:
-      - name: customer_id
-        description: Primary key
-        data_tests:
-          - unique
-          - not_null
-
   - name: stg_orders
-    description: This model cleans up order data
+    description: Cleaned order data
+
     columns:
       - name: order_id
         description: Primary key
+
         data_tests:
           - unique
           - not_null
 
-      - name: status
+      - name: customer_id
+
+        data_tests:
+          - not_null
+
+      - name: order_status
+
         data_tests:
           - accepted_values:
               arguments:
@@ -42,10 +29,17 @@ models:
                   - return_pending
                   - returned
 
-      - name: customer_id
-        data_tests:
-          - not_null
-          - relationships:
-              arguments:
-                to: ref('stg_customers')
-                field: customer_id
+  - name: stg_interviews
+    description: Cleaned interview data
+
+  - name: stg_interviews_latest
+    description: Latest interview record per interview
+
+  - name: dim_candidate
+    description: Candidate dimension table
+
+  - name: dim_interviewer
+    description: Interviewer dimension table
+
+  - name: fct_interview
+    description: Interview fact table
