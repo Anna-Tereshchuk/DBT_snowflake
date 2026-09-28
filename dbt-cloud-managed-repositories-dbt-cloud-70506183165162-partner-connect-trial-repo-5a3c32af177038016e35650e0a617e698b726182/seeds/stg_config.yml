@@ -1,0 +1,29 @@
+version: 2
+
+seeds:
+  - name: stg_config
+    description: Configuration file for staging transformations
+
+    config:
+      column_types:
+        raw_table_name: varchar
+        raw_column_name: varchar
+        target_column_name: varchar
+        target_data_type: varchar
+        target_order_num: number
+
+    columns:
+      - name: raw_table_name
+        description: Source table name
+
+      - name: raw_column_name
+        description: Source column name
+
+      - name: target_column_name
+        description: Target column name for staging layer
+
+      - name: target_data_type
+        description: Target data type in staging layer
+
+      - name: target_order_num
+        description: Column order in staging model

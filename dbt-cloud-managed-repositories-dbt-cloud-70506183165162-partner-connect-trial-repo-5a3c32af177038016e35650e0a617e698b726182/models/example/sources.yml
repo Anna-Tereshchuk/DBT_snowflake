@@ -1,0 +1,32 @@
+version: 2
+
+sources:
+  - name: jaffle_shop
+    description: Raw application data
+    database: RAW
+    schema: JAFFLE_SHOP
+
+    tables:
+      - name: customers
+        description: Customer master data.
+
+      - name: orders
+        description: Customer orders.
+
+  - name: stripe
+    description: Raw Stripe payment data
+    database: RAW
+    schema: STRIPE
+
+    tables:
+      - name: payment
+        description: Payment transactions.
+
+  - name: hiring
+    description: Interview process data
+    database: DBT_PROJECT
+    schema: RAW
+
+    tables:
+      - name: interviews
+        description: Candidate interview records.
