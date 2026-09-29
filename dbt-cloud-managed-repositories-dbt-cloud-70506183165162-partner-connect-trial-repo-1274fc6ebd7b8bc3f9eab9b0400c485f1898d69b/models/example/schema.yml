@@ -1,0 +1,96 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: Cleaned order data
+
+    columns:
+      - name: order_id
+        description: Primary key
+        data_tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        data_tests:
+          - not_null
+
+      - name: order_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - placed
+                  - shipped
+                  - completed
+                  - return_pending
+                  - returned
+
+  - name: stg_interviews
+    description: Cleaned interview data
+
+  - name: stg_interviews_latest
+    description: Latest interview record per interview
+
+    columns:
+      - name: candidate_id
+        data_tests:
+          - not_null
+
+      - name: interviewer_id
+        data_tests:
+          - not_null
+
+          # dbt_utils community test
+          - dbt_utils.not_constant
+
+      - name: interview_status
+        data_tests:
+          - not_null
+
+          - accepted_values:
+              arguments:
+                values:
+                  - DRAFT
+                  - REQUESTED
+                  - SCHEDULED
+                  - IN_PROGRESS
+                  - PENDING_FEEDBACK
+                  - COMPLETED
+                  - CANCELLED
+
+  - name: dim_candidate
+    description: Candidate dimension table
+
+    columns:
+      - name: candidate_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_interviewer
+    description: Interviewer dimension table
+
+    columns:
+      - name: interviewer_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: fct_interview
+    description: Interview fact table
+
+    columns:
+      - name: candidate_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_candidate')
+                field: candidate_id
+
+      - name: interviewer_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_interviewer')
+                field: interviewer_id
