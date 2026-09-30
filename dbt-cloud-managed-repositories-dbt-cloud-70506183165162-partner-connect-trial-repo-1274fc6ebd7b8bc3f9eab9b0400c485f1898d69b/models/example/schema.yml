@@ -2,20 +2,25 @@ version: 2
 
 models:
   - name: stg_orders
-    description: Cleaned order data
+    description: Order records prepared for analytics and reporting.
 
     columns:
       - name: order_id
-        description: Primary key
+        description: Unique identifier of an order.
+
         data_tests:
           - unique
           - not_null
 
       - name: customer_id
+        description: Unique identifier of the customer who placed the order.
+
         data_tests:
           - not_null
 
       - name: order_status
+        description: Current status of the order.
+
         data_tests:
           - accepted_values:
               arguments:
@@ -27,27 +32,30 @@ models:
                   - returned
 
   - name: stg_interviews
-    description: Cleaned interview data
+    description: Raw interview records cleaned and standardized for downstream analysis.
 
   - name: stg_interviews_latest
-    description: Latest interview record per interview
+    description: Latest available interview record for each interview.
 
     columns:
       - name: candidate_id
+        description: Unique identifier of a candidate.
+
         data_tests:
           - not_null
 
       - name: interviewer_id
+        description: Unique identifier of the interviewer responsible for the interview.
+
         data_tests:
           - not_null
-
-          # dbt_utils community test
           - dbt_utils.not_constant
 
       - name: interview_status
+        description: Current stage or outcome of the interview.
+
         data_tests:
           - not_null
-
           - accepted_values:
               arguments:
                 values:
@@ -60,28 +68,34 @@ models:
                   - CANCELLED
 
   - name: dim_candidate
-    description: Candidate dimension table
+    description: "{{ doc('candidate_entity') }}"
 
     columns:
       - name: candidate_id
+        description: Unique identifier of a candidate.
+
         data_tests:
           - unique
           - not_null
 
   - name: dim_interviewer
-    description: Interviewer dimension table
+    description: "{{ doc('interviewer_entity') }}"
 
     columns:
       - name: interviewer_id
+        description: Unique identifier of an interviewer.
+
         data_tests:
           - unique
           - not_null
 
   - name: fct_interview
-    description: Interview fact table
+    description: "{{ doc('interview_fact') }}"
 
     columns:
       - name: candidate_id
+        description: Candidate participating in the interview process.
+
         data_tests:
           - relationships:
               arguments:
@@ -89,6 +103,8 @@ models:
                 field: candidate_id
 
       - name: interviewer_id
+        description: Interviewer conducting the interview.
+
         data_tests:
           - relationships:
               arguments:
