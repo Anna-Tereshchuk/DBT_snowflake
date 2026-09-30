@@ -1,0 +1,37 @@
+version: 2
+
+metrics:
+  - name: total_interviews
+    label: Total Interviews
+    type: simple
+    type_params:
+      measure:
+        name: total_interviews
+
+  - name: average_interview_duration
+    label: Average Interview Duration
+    type: simple
+    type_params:
+      measure:
+        name: avg_interview_duration
+
+  - name: average_feedback_delay
+    label: Average Feedback Delay
+    type: simple
+    type_params:
+      measure:
+        name: avg_feedback_delay
+
+  - name: interviews_per_candidate
+    label: Interviews Per Candidate
+    type: simple
+    type_params:
+      measure:
+        name: total_interviews
+
+  - name: interviews_per_interviewer
+    label: Interviews Per Interviewer
+    type: simple
+    type_params:
+      measure:
+        name: total_interviews

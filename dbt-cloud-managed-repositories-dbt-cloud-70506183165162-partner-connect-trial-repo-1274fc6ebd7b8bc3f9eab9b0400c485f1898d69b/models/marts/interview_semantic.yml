@@ -1,0 +1,35 @@
+version: 2
+
+semantic_models:
+  - name: interview
+    description: Interview activities and outcomes during the hiring process.
+
+    model: ref('fct_interview')
+
+    entities:
+      - name: candidate
+        type: primary
+        expr: candidate_id
+
+      - name: interviewer
+        type: foreign
+        expr: interviewer_id
+
+    dimensions:
+      - name: interview_type
+        type: categorical
+
+    measures:
+      - name: total_interviews
+        description: Total number of interviews.
+        agg: count
+
+      - name: avg_interview_duration
+        description: Average interview duration in minutes.
+        agg: average
+        expr: interview_duration
+
+      - name: avg_feedback_delay
+        description: Average feedback delay in minutes.
+        agg: average
+        expr: feedback_delay

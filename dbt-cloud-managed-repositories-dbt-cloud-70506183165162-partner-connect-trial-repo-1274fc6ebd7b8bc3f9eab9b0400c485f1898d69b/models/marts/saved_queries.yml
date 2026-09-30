@@ -1,0 +1,10 @@
+version: 2
+
+saved_queries:
+  - name: interview_summary
+
+    query_params:
+      metrics:
+        - total_interviews
+        - average_interview_duration
+        - average_feedback_delay
